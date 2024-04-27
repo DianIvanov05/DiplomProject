@@ -1,0 +1,32 @@
+﻿@model WineryAssortments.Data.WineCattegory
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Изтрий категория на вино</h1>
+
+<h3>Наистина ли искате да изтриете тази катеогия на вино?</h3>
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DateModified)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DateModified)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

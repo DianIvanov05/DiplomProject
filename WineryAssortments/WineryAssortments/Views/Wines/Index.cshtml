@@ -1,0 +1,64 @@
+﻿@model IEnumerable<WineryAssortments.Data.Wine>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<center><h1 class="Heading">Най-добрите асортименти във Винарна „Асорти“</h1></center>
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="AdminNewBtn">
+        <div class="form-group"><a asp-action="Create" type="submit" class="btn btn-primary">Добави ново вино</a></div>
+        <div class="form-group"><a asp-controller="WineTypes" asp-action="Index" type="submit" class="btn btn-primary">Видове вина </a></div>
+        <div class="form-group"><a asp-controller="WineCattegories" asp-action="Index" type="submit" class="btn btn-primary">Категории вина </a></div>
+    </div>
+  
+}
+
+<hr />
+<div class="wines-container">
+    @foreach (var item in Model)
+    {
+
+        <div class="wines">
+            <a asp-action="Details" asp-route-id="@item.Id"><div class="wineImg"><img src="@Html.DisplayFor(modelItem => item.ImageUrl)" /> </div></a>
+            <div class="wine-description">
+                <div>
+                    <div>
+                        <dl class="row" style="position: relative;">
+                            <div class="description">
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => item.Name)
+                                </dd>
+                                <dd class="ImportantItem">
+                                    @Html.DisplayFor(model => item.Price) лв.
+                                </dd>
+                            </div>
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <div class="btnDivAdmin">
+                                    <a asp-action="Edit" asp-route-id="@item.Id" type="submit" class="btn btn-primary">Редактирай</a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" type="submit" class="btn btn-danger">Изтрий виното</a>
+                                </div>
+                            }
+                            @if (!User.IsInRole("Admin"))
+                            {
+                                <div class="buttons">
+                                    <form method="get" asp-controller="Orders" asp-action="CreateWithWineId" asp-route-wineId="@item.Id">
+                                        <input name="wineId" type="hidden" value="@item.Id" />
+                                        <input name="countP" id="ccount" type="number" width="4" value="1" style="color:black; font:bold" />
+                                        <input id="buyBtn" type="submit" value="Поръчай &#128722;" class="btn btn-primary" />
+                                    </form>
+
+                                </div>
+
+                            }
+                        </dl>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    }
+</div>
